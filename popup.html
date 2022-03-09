@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+ <html>
+ <head>
+ <style>
+     body {
+         min-width: 330px;
+         font-size: 16px;
+     }
+     h1 {
+         font-size: 20px;
+     }
+ </style>
+</head>
+ <body>
+     <form id="optionsForm">
+        <label for="searchFor">Cauta în resigilate produsul:</label>
+        <input type="text" name="searchFor" id="searchFor"/><br/>
+
+        <label for="timeLoop">Actualizare la X minute:</label>
+        <input id="timeLoop" name="timeLoop" type="text"/><br/>
+        
+        <label for="isActive">Pornit:</label>
+        <input id="isActive" value="true" name="isActive" type="checkbox" /><br/>
+
+        <input id="saveData" type="button" value="Salveaza" /><br/>
+        <hr></hr>
+
+        <span>Am gasit: <span id="itemsFound"></span></span>
+     </form>
+ </body>
+<script defer src="js/options.js"></script>
+</html>

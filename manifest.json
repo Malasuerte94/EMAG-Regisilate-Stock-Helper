@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "EMAG STOCK HELPER",
+    "description": "Checks for stock and initiates checkout for hard-to-buy products from AMD Direct (AMD.com)",
+    "version": "1.0",
+    "icons": {
+        "48": "img/icon48.png",
+        "128": "img/icon128.png"
+    },
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "service_worker": "/js/background.js"
+    },
+    "permissions": ["cookies", "tabs", "storage", "notifications"],
+    "host_permissions": ["https://www.emag.ro/*"]
+}
