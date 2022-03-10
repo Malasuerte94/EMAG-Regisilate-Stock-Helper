@@ -1,39 +1,50 @@
-var tid;
+chrome.storage.onChanged.addListener(function (changes, namespace) {
+    for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+        console.log(
+            `Storage key "${key}" in namespace "${namespace}" changed.`,
+            `Old value was "${oldValue}", new value is "${newValue}".`
+        );
 
-stopLoop();
-tid = null;
-check();
+        cancelAlarm();
+        check();
+
+        if (key == "items") {
+            if (newValue > oldValue) {
+                var opt = {
+                    type: "basic",
+                    title: "STOC UPDATE",
+                    message: "A aparut un produs nou pentru căutarea ta!",
+                    iconUrl: "/img/icon48.png",
+                };
+                chrome.notifications.create("", opt);
+            }
+        }
+    }
+});
 
 function check() {
     chrome.storage.local.get(null, (items) => {
         var activated = Boolean(items.isActive);
-
-        if (activated == false) {
-            stopLoop();
-        }
-
-        if (items.timeLoop >= 1) {
-            tid = setInterval(loopSearch, items.timeLoop * 60000);
+        if (items.timeLoop >= 1 && activated) {
+            chrome.alarms.create("loopSearch", {
+                periodInMinutes: Number(items.timeLoop),
+                //periodInMinutes: 0.1,
+            });
             console.log("Start");
-            if (activated == false) {
-                console.log("Start.. but stoped because is not ON");
-                stopLoop();
-            }
         } else {
-            console.log("Loop to short");
-            stopLoop();
+            cancelAlarm();
+            console.log("Loop to short / Not Started");
         }
+    });
+}
 
-        function loopSearch() {
+chrome.alarms.onAlarm.addListener(function (alarm) {
+    if (alarm.name == "loopSearch") {
+        chrome.storage.local.get(null, (dbItems) => {
             console.log("Search...");
-
-            if (activated == false) {
-                stopLoop();
-            }
-
             const url =
                 "https://www.emag.ro/search/telefoane-mobile/brand/apple/resigilate/" +
-                items.searchFor +
+                dbItems.searchFor +
                 "/c";
 
             fetch(url)
@@ -53,37 +64,39 @@ function check() {
                 );
 
                 items = JSON.parse(items);
-                console.log(items);
+
+                if (dbItems.itemsArray) {
+                    //console.log(dbItems.itemsArray);
+                    var newLenght = getDifference(items, dbItems.itemsArray);
+                    if (newLenght.length >= 1) {
+                        var newProductsCount = newLenght.length;
+                        console.log("- new products:" + newProductsCount);
+
+                        var newProduct = {
+                            type: "basic",
+                            title: newProductsCount + "PRODUSE NOI",
+                            message:
+                                "Au aparut " +
+                                newProductsCount +
+                                " produse noi pentru căutarea ta!",
+                            iconUrl: "/img/icon48.png",
+                        };
+                        chrome.notifications.create("", newProduct);
+
+                    } else {
+                        console.log("- no new products");
+                    }
+                }
+
                 var countItems = Object.keys(items).length;
-                chrome.storage.local.set({ items: countItems }, function () {});
+                console.log("- found items: " + countItems);
+
+                chrome.storage.local.set(
+                    { items: countItems, itemsArray: items },
+                    function () {}
+                );
             }
-        }
-    });
-}
-
-chrome.storage.onChanged.addListener(function (changes, namespace) {
-    for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-        console.log(
-            `Storage key "${key}" in namespace "${namespace}" changed.`,
-            `Old value was "${oldValue}", new value is "${newValue}".`
-        );
-
-        stopLoop();
-        tid = null;
-
-        check();
-
-        if (key == "items") {
-            if (newValue > oldValue) {
-                var opt = {
-                    type: "basic",
-                    title: "STOC UPDATE",
-                    message: "A aparut un produs nou pentru căutarea ta!",
-                    iconUrl: "/img/icon48.png",
-                };
-                chrome.notifications.create("", opt);
-            }
-        }
+        });
     }
 });
 
@@ -98,6 +111,15 @@ chrome.notifications.onClicked.addListener(function (notificationId, byUser) {
     });
 });
 
-function stopLoop() {
-    clearInterval(tid);
+function getDifference(array1, array2) {
+    return array1.filter((object1) => {
+        return !array2.some((object2) => {
+            return object1.id === object2.id;
+        });
+    });
+}
+
+function cancelAlarm() {
+    console.log("Cancel Looper");
+    chrome.alarms.clear("loopSearch");
 }

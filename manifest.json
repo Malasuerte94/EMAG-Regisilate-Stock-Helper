@@ -13,6 +13,6 @@
     "background": {
         "service_worker": "/js/background.js"
     },
-    "permissions": ["cookies", "tabs", "storage", "notifications"],
+    "permissions": ["cookies", "tabs", "storage", "notifications", "alarms"],
     "host_permissions": ["https://www.emag.ro/*"]
 }
