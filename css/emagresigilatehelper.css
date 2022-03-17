@@ -1,0 +1,39 @@
+.button_emagHelper {
+  color: white;
+  font-family: "Roboto", helvetica;
+  background-color: dodgerblue;
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 16px;
+  cursor: pointer;
+  position: fixed;
+bottom: 2vh;
+left: 2vw;
+  box-shadow: 12px 16px 35px 0px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 150ms linear, background-color 150ms linear, transform 150ms linear;
+}
+.button_emagHelper:hover {
+  transform: scale(0.98);
+  background-color: #0077ea;
+  box-shadow: 6px 8px 8px 0px rgba(0, 0, 0, 0.3);
+}
+.button_emagHelper:active {
+  transform: scale(0.97);
+  background-color: #006ad1;
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+}
+
+.allreadyhere::after {
+    content: 'Văzut';
+    position: absolute;
+    color: white;
+    top: 50px;
+    font-weight: bold;
+    z-index: 1;
+    background-color: red;
+    width: auto;
+    padding: 0px 5px;
+    left: 5px !important;
+    border-radius: 0px 5px 5px 0px;
+}

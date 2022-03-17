@@ -14,5 +14,12 @@
         "service_worker": "/js/background.js"
     },
     "permissions": ["commands", "tabs", "storage", "notifications", "alarms"],
-    "host_permissions": ["https://www.emag.ro/*"]
+    "host_permissions": ["https://www.emag.ro/*"],
+    "content_scripts": [
+        {
+            "matches": ["https://*.emag.ro/search/*"],
+            "css": ["css/emagresigilatehelper.css"],
+            "js": ["js/emagresigilatehelper.js"]
+        }
+    ]
 }

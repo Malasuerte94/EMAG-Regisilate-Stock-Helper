@@ -9,17 +9,17 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
         cancelAlarm();
         check();
 
-        if (key == "items") {
-            if (newValue > oldValue) {
-                var opt = {
-                    type: "basic",
-                    title: "STOC UPDATE",
-                    message: "A aparut un produs nou pentru căutarea ta!",
-                    iconUrl: "/img/icon48.png",
-                };
-                chrome.notifications.create("", opt);
-            }
-        }
+        // if (key == "items") {
+        //     if (newValue > oldValue) {
+        //         var opt = {
+        //             type: "basic",
+        //             title: "STOC UPDATE",
+        //             message: "A aparut un produs nou pentru căutarea ta!",
+        //             iconUrl: "/img/icon48.png",
+        //         };
+        //         chrome.notifications.create("", opt);
+        //     }
+        // }
     }
 });
 
@@ -43,10 +43,12 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
     if (alarm.name == "loopSearch") {
         chrome.storage.local.get(null, (dbItems) => {
             console.log("Search...");
-            const url =
-                "https://www.emag.ro/search/telefoane-mobile/brand/apple/resigilate/" +
-                dbItems.searchFor +
-                "/c";
+            if (!dbItems.searchUrl && !dbItems.searchProduct) {
+                console.log('Nu ai căutari salvate!');
+                return;
+            }
+
+            const url = dbItems.searchUrl + '/' + dbItems.searchProduct + "/c";
 
             fetch(url)
                 .then((response) => response.text())
@@ -68,14 +70,14 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
 
                 if (dbItems.itemsArray) {
                     //console.log(dbItems.itemsArray);
-                    var newLenght = getDifference(items, dbItems.itemsArray);
-                    if (newLenght.length >= 1) {
-                        var newProductsCount = newLenght.length;
+                    var newProducts = getDifference(items, dbItems.itemsArray);
+                    if (newProducts.length >= 1) {
+                        var newProductsCount = newProducts.length;
                         console.log("- new products:" + newProductsCount);
 
                         var newProduct = {
                             type: "basic",
-                            title: newProductsCount + "PRODUSE NOI",
+                            title: newProductsCount + " PRODUSE NOI",
                             message:
                                 "Au aparut " +
                                 newProductsCount +
@@ -92,7 +94,11 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
                 console.log("- found items: " + countItems);
 
                 chrome.storage.local.set(
-                    { items: countItems, itemsArray: items },
+                    {
+                        items: countItems,
+                        itemsArray: items,
+                        newProducts: newProducts,
+                    },
                     function () {}
                 );
             }
@@ -103,10 +109,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
 chrome.notifications.onClicked.addListener(function (notificationId, byUser) {
     chrome.storage.local.get(null, (items) => {
         chrome.tabs.create({
-            url:
-                "https://www.emag.ro/search/telefoane-mobile/brand/apple/resigilate/" +
-                items.searchFor +
-                "/c",
+            url: items.searchUrl + '/' + items.searchProduct + "/c",
         });
     });
 });
