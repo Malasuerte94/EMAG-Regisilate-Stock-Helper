@@ -1,10 +1,11 @@
+chrome.runtime.onInstalled.addListener((reason) => {
+    if (reason === chrome.runtime.OnInstalledReason.INSTALL) {
+        console.log('Installed');
+    }
+});
+
 chrome.storage.onChanged.addListener(function (changes, namespace) {
     for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-        console.log(
-            `Storage key "${key}" in namespace "${namespace}" changed.`,
-            `Old value was "${oldValue}", new value is "${newValue}".`
-        );
-
         cancelAlarm();
         check();
 
@@ -82,7 +83,6 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
                             iconUrl: "/img/icon48.png",
                         };
                         chrome.notifications.create("", newProduct);
-
                     } else {
                         console.log("- no new products");
                     }
