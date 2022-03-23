@@ -6,6 +6,11 @@ chrome.storage.local.get(null, (items) => {
     document.getElementById("searchFor").innerHTML = String(
       items.searchProduct
     );
+    notificationDiv(
+      String(items.newProducts.length),
+      items.manualUrl,
+      items.newProductsDate
+    );
 });
 
 //start stop
@@ -21,3 +26,25 @@ optionsForm.saveData.addEventListener("click", (event) => {
     chrome.storage.local.set({ timeLoop: timeLoop });
     console.log("Data saved");
 });
+
+
+function notificationDiv(produs, url, date) {
+    if (produs && url && date) {
+      let cautare = document.createElement("div");
+      cautare.classList.add("last_notify");
+      cautare.innerHTML = "<span class='hour'>" + date + "</span> Am gasit " + produs + " produse noi! | ";
+
+      let buttonLink = document.createElement("button");
+      buttonLink.classList.add("buttonLink");
+      buttonLink.innerHTML = "Verifica";
+
+      cautare.appendChild(buttonLink);
+      document.getElementById("productNotification").appendChild(cautare);
+
+      cautare.addEventListener("click", function () {
+        chrome.tabs.create({
+          url: url,
+        });
+      });
+    }
+}

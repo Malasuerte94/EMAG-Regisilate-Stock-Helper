@@ -73,11 +73,13 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
             };
             chrome.notifications.create("", newProduct);
             console.log("- found items: " + countItems);
+            let date = new Date().toLocaleString();
 
             chrome.storage.local.set({
               items: countItems,
               itemsArray: items,
               newProducts: newProducts,
+              newProductsDate: date
             });
           } else {
             console.log("- no new products");
@@ -87,6 +89,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
             items: countItems,
             itemsArray: items,
             newProducts: null,
+            newProductsDate: null
           });
         }
       }

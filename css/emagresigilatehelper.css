@@ -8,10 +8,11 @@
   font-size: 16px;
   cursor: pointer;
   position: fixed;
-bottom: 2vh;
-left: 2vw;
+  bottom: 2vh;
+  left: 2vw;
   box-shadow: 12px 16px 35px 0px rgba(0, 0, 0, 0.3);
-  transition: box-shadow 150ms linear, background-color 150ms linear, transform 150ms linear;
+  transition: box-shadow 150ms linear, background-color 150ms linear,
+    transform 150ms linear;
 }
 .button_emagHelper:hover {
   transform: scale(0.98);
@@ -25,29 +26,29 @@ left: 2vw;
 }
 
 .allreadyhere::after {
-    content: 'Văzut';
-    position: absolute;
-    color: white;
-    top: 50px;
-    font-weight: bold;
-    z-index: 1;
-    background-color: red;
-    width: auto;
-    padding: 0px 5px;
-    left: 5px !important;
-    border-radius: 0px 5px 5px 0px;
+  content: "Văzut";
+  position: absolute;
+  color: white;
+  top: 50px;
+  font-weight: bold;
+  z-index: 1;
+  background-color: red;
+  width: auto;
+  padding: 0px 5px;
+  left: 5px !important;
+  border-radius: 0px 5px 5px 0px;
 }
 
 .produsnou::after {
-    content: 'NOU' !important;
-    position: absolute;
-    color: white;
-    top: 50px;
-    font-weight: bold;
-    z-index: 1;
-    background-color: rgb(5, 165, 0);
-    width: auto;
-    padding: 0px 5px;
-    left: 5px !important;
-    border-radius: 0px 5px 5px 0px;
+  content: "NOU" !important;
+  position: absolute;
+  color: white;
+  top: 50px;
+  font-weight: bold;
+  z-index: 1;
+  background-color: rgb(5, 165, 0);
+  width: auto;
+  padding: 0px 5px;
+  left: 5px !important;
+  border-radius: 0px 5px 5px 0px;
 }

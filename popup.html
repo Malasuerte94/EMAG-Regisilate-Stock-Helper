@@ -1,27 +1,58 @@
 <!DOCTYPE html>
- <html>
- <head>
- <style>
-     body {
-         min-width: 330px;
-         font-size: 16px;
-     }
-     h1 {
-         font-size: 20px;
-     }
- </style>
-</head>
- <body>
-     <form id="optionsForm">
-        <span>Acum caut: <span id="searchFor"></span></span><br/>
-        
-        <label for="timeLoop">Actualizare la <input style="width: 30px;" id="timeLoop" name="timeLoop" type="text"/> minute</label> | <input id="saveData" type="button" value="Salveaza Minute" /><br/>
-        <br/>
-        
-        <label for="isActive">Pornit:</label>
-        <input id="isActive" value="true" name="isActive" type="checkbox" />
-        
-     </form>
- </body>
-<script defer src="js/options.js"></script>
+<html>
+  <head>
+    <style>
+      body {
+        min-width: 330px;
+        font-size: 16px;
+      }
+      h1 {
+        font-size: 20px;
+      }
+      .last_notify {
+        background-color: #57d0ff;
+        padding: 10px;
+        border-radius: 10px;
+        position: relative;
+        padding-top: 20px;
+      }
+
+      .hour {
+        top: 8px;
+        position: absolute;
+        font-size: 9px;
+      }
+
+      .buttonLink {
+        background-color: #e90000;
+        border: none;
+        padding: 5px 15px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="optionsForm">
+      <span>Acum caut: <span id="searchFor"></span></span><br />
+
+      <label for="timeLoop"
+        >Actualizare la
+        <input style="width: 30px" id="timeLoop" name="timeLoop" type="text" />
+        minute</label
+      >
+      | <input id="saveData" type="button" value="Salveaza Minute" /><br />
+      <br />
+
+      <label for="isActive">Pornit:</label>
+      <input id="isActive" value="true" name="isActive" type="checkbox" />
+    </form>
+    <div>
+      <h3>-- NOUTATI --</h3>
+      <div id="productNotification"></div>
+    </div>
+  </body>
+  <script defer src="js/options.js"></script>
 </html>
