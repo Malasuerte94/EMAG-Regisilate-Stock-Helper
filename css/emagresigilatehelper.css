@@ -37,3 +37,17 @@ left: 2vw;
     left: 5px !important;
     border-radius: 0px 5px 5px 0px;
 }
+
+.produsnou::after {
+    content: 'NOU' !important;
+    position: absolute;
+    color: white;
+    top: 50px;
+    font-weight: bold;
+    z-index: 1;
+    background-color: rgb(5, 165, 0);
+    width: auto;
+    padding: 0px 5px;
+    left: 5px !important;
+    border-radius: 0px 5px 5px 0px;
+}
