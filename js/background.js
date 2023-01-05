@@ -4,12 +4,13 @@ chrome.runtime.onConnect.addListener(function (p) {
     port = p;
 });
 
+// update logs
 function updateCounter(counter) {
     chrome.storage.local.get(['logs'], function (result) {
         let logs = result.logs || [];
         logs.push(counter);
-        if (logs.length > 10) {
-            logs.shift(); // Remove the oldest log if the maximum of 10 is reached
+        if (logs.length > 6) {
+            logs.shift();
         }
         chrome.storage.local.set({ logs: logs }, function () {
             if (port) {
@@ -19,44 +20,55 @@ function updateCounter(counter) {
     });
 }
 
-chrome.runtime.onInstalled.addListener((reason) => {
-    if (reason === chrome.runtime.OnInstalledReason.INSTALL) {
-        chrome.storage.local.set({ timeLoop: 1, searchProduct: '' });
-    }
+//set time and search when install
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.storage.local.set({ timeLoop: 1, searchProduct: '' });
 });
 
+//check if storage was changed
 chrome.storage.onChanged.addListener(function (changes, namespace) {
     for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
         if (key !== 'logs') {
-            cancelAlarm();
+            if (key === 'searchProduct') {
+                updateCounter('Produsul a fost schimbat...');
+            }
+            if (key === 'timeLoop') {
+                updateCounter('Timpul a fost schimbat de la ' + oldValue + ' la ' + newValue + ' minute');
+            }
             check();
         }
     }
 });
 
+//check if we can start
 function check() {
-    console.log('check called'); // Check if check is being called by an event
     chrome.storage.local.get(null, (items) => {
         var activated = Boolean(items.isActive);
         var searchProduct = items.searchProduct;
         if (items.timeLoop >= 1 && activated && searchProduct) {
-            updateCounter('Start..');
-            chrome.alarms.create('loopSearch', {
-                periodInMinutes: Number(items.timeLoop),
+            chrome.alarms.get('loopSearch', (alarm) => {
+                if (!alarm) {
+                    updateCounter('- PORNIT -');
+                    updateCounter(items.searchUrl + '/' + searchProduct);
+                    chrome.alarms.create('loopSearch', {
+                        periodInMinutes: Number(items.timeLoop),
+                    });
+                } else { 
+                    updateCounter('Continuă...');
+                }
             });
-            console.log('Start');
         } else {
-            updateCounter('Stop...');
+            updateCounter('- OPRIT -');
             cancelAlarm();
         }
     });
 }
 
+
 chrome.alarms.onAlarm.addListener(function (alarm) {
     if (alarm.name == 'loopSearch') {
         chrome.storage.local.get(null, (dbItems) => {
             updateCounter('Caută...');
-            console.log('Search...');
             if (!dbItems.searchUrl && !dbItems.searchProduct) {
                 updateCounter('Nu ai căutari salvate!...');
                 console.log('Nu ai căutari salvate!');
@@ -85,8 +97,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
                     var newProducts = getDifference(items, dbItems.itemsArray);
                     if (newProducts.length >= 1) {
                         var newProductsCount = newProducts.length;
-                        updateCounter('Produse noi...' + newProductsCount);
-                        console.log('- new products:' + newProductsCount);
+                        updateCounter('Produse noi' + newProductsCount);
 
                         var newProduct = {
                             type: 'basic',
@@ -105,8 +116,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
                             newProductsDate: date,
                         });
                     } else {
-                        updateCounter('Nu sunt produse noi');
-                        console.log('- no new products');
+                        updateCounter('Nu sunt produse noi, continuăm...');
                     }
                 } else {
                     chrome.storage.local.set({

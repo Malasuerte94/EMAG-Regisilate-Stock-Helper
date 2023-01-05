@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="css/popup.css" />
     </head>
     <body>
         <form id="optionsForm">
             <div>Acum caut: <span id="searchFor">...</span></div>
 
-            <div>
+            <div class="timeLoopBox">
                 <label for="timeLoop"
                     >Actualizare la
                     <input style="width: 30px;" id="timeLoop" name="timeLoop" type="text" />
                     min</label
-                ><input id="saveData" type="button" value="Salveaza" />
+                >
+                <div id="save_minutes" class="btn btn__primary"><p>Salveaza</p></div>
             </div>
             <div class="power">
-                <label for="isActive">PORNIT</label>
-                <input id="isActive" value="true" name="isActive" type="checkbox" />
+                <span id="switchText"></span>
+                <div class="switch">
+                    <div class="switch__1">
+                        <input id="isActive" type="checkbox" />
+                        <label for="isActive"></label>
+                    </div>
+                </div>
             </div>
         </form>
-        <div>
-            <ul id="logs"></ul>
+        <div class="monitor_notifications">
+            <div class="title">PRODUSE NOI ></div>
             <div id="productNotification"></div>
+        </div>
+        <div class="monitor_logs">
+            <div class="title">WORKER ></div>
+            <ul id="logs"></ul>
         </div>
     </body>
     <script defer src="js/options.js"></script>

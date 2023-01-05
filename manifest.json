@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "eMAG HELPER Resigilate",
     "description": "Verifică stocurile la resigilate",
-    "version": "1.0",
+    "version": "1.1",
     "icons": {
         "48": "img/icon48.png",
         "128": "img/icon128.png"
