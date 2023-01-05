@@ -11,6 +11,7 @@ html {
     font-size: 14px;
 }
 #searchFor {
+    font-weight: bold;
     color: white;
 }
 .last_notify {
@@ -20,3 +21,33 @@ html {
         position: relative;
         padding-top: 20px;
       }
+#timeLoop {
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid black;
+}
+#saveData:hover {
+    transition: 200ms;
+    background: rgb(198, 137, 255);
+}
+#saveData {
+margin-left: 5px;
+background-color: white;
+color: black;
+border-radius: 5px;
+border: 1px solid black;
+}
+
+.power {
+    font-size: 18px;
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+h3 {
+    text-align: center;
+}
