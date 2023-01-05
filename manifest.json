@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "EMAG STOCK HELPER",
-    "description": "Checks for stock and initiates checkout for hard-to-buy products from AMD Direct (AMD.com)",
+    "name": "eMAG HELPER Resigilate",
+    "description": "Verifică stocurile la resigilate",
     "version": "1.0",
     "icons": {
         "48": "img/icon48.png",
@@ -13,6 +13,13 @@
     "background": {
         "service_worker": "/js/background.js"
     },
-    "permissions": ["cookies", "tabs", "storage", "notifications"],
-    "host_permissions": ["https://www.emag.ro/*"]
+    "permissions": ["commands", "storage", "notifications", "alarms"],
+    "host_permissions": ["https://www.emag.ro/*"],
+    "content_scripts": [
+        {
+            "matches": ["https://*.emag.ro/search/*"],
+            "css": ["css/emagresigilatehelper.css"],
+            "js": ["js/emagresigilatehelper.js"]
+        }
+    ]
 }
