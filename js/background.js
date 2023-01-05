@@ -1,26 +1,52 @@
+let port;
+
+chrome.runtime.onConnect.addListener(function (p) {
+    port = p;
+});
+
+function updateCounter(counter) {
+    chrome.storage.local.get(['logs'], function (result) {
+        let logs = result.logs || [];
+        logs.push(counter);
+        if (logs.length > 10) {
+            logs.shift(); // Remove the oldest log if the maximum of 10 is reached
+        }
+        chrome.storage.local.set({ logs: logs }, function () {
+            if (port) {
+                port.postMessage({ logs: logs });
+            }
+        });
+    });
+}
+
 chrome.runtime.onInstalled.addListener((reason) => {
-  if (reason === chrome.runtime.OnInstalledReason.INSTALL) {
-    chrome.storage.local.set({ timeLoop: 1, searchProduct: ''});
-  }
+    if (reason === chrome.runtime.OnInstalledReason.INSTALL) {
+        chrome.storage.local.set({ timeLoop: 1, searchProduct: '' });
+    }
 });
 
 chrome.storage.onChanged.addListener(function (changes, namespace) {
-  for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-        cancelAlarm();
-        check();
+    for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+        if (key !== 'logs') {
+            cancelAlarm();
+            check();
+        }
     }
 });
 
 function check() {
-    chrome.storage.local.get(null, async (items) => {
+    console.log('check called'); // Check if check is being called by an event
+    chrome.storage.local.get(null, (items) => {
         var activated = Boolean(items.isActive);
         var searchProduct = items.searchProduct;
         if (items.timeLoop >= 1 && activated && searchProduct) {
-            await chrome.alarms.create('loopSearch', {
+            updateCounter('Start..');
+            chrome.alarms.create('loopSearch', {
                 periodInMinutes: Number(items.timeLoop),
             });
             console.log('Start');
         } else {
+            updateCounter('Stop...');
             cancelAlarm();
         }
     });
@@ -29,8 +55,10 @@ function check() {
 chrome.alarms.onAlarm.addListener(function (alarm) {
     if (alarm.name == 'loopSearch') {
         chrome.storage.local.get(null, (dbItems) => {
+            updateCounter('Caută...');
             console.log('Search...');
             if (!dbItems.searchUrl && !dbItems.searchProduct) {
+                updateCounter('Nu ai căutari salvate!...');
                 console.log('Nu ai căutari salvate!');
                 return;
             }
@@ -57,6 +85,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
                     var newProducts = getDifference(items, dbItems.itemsArray);
                     if (newProducts.length >= 1) {
                         var newProductsCount = newProducts.length;
+                        updateCounter('Produse noi...' + newProductsCount);
                         console.log('- new products:' + newProductsCount);
 
                         var newProduct = {
@@ -76,6 +105,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
                             newProductsDate: date,
                         });
                     } else {
+                        updateCounter('Nu sunt produse noi');
                         console.log('- no new products');
                     }
                 } else {

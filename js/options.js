@@ -1,3 +1,28 @@
+let port = chrome.runtime.connect({name: "logs"});
+
+port.onMessage.addListener((request) => {
+  let logs = request.logs || [];
+  logs.reverse();
+  updateLogList(logs);
+});
+
+chrome.storage.local.get(['logs'], (result) => {
+  let logs = result.logs || [];
+  logs.reverse();
+  updateLogList(logs);
+});
+
+function updateLogList(logs) {
+  document.getElementById("logs").innerHTML = "";
+  logs.forEach((log) => {
+    let li = document.createElement("li");
+    li.classList.add("log");
+    
+    li.textContent = log;
+    document.getElementById("logs").appendChild(li);
+  });
+}
+
 //set data to seee
 chrome.storage.local.get(null, (items) => {
     optionsForm.timeLoop.value = String(items.timeLoop);
