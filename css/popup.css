@@ -1,0 +1,22 @@
+html {
+    background-color: #858EF7;
+    box-sizing: border-box;
+    border: 5px solid white;
+    height: 400px;
+    width: 300px;
+}
+#optionsForm {
+    border-bottom: 1px solid white;
+    padding: 5px;
+    font-size: 14px;
+}
+#searchFor {
+    color: white;
+}
+.last_notify {
+        background-color: #57d0ff;
+        padding: 10px;
+        border-radius: 10px;
+        position: relative;
+        padding-top: 20px;
+      }
