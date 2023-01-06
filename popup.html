@@ -1,58 +1,39 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      body {
-        min-width: 330px;
-        font-size: 16px;
-      }
-      h1 {
-        font-size: 20px;
-      }
-      .last_notify {
-        background-color: #57d0ff;
-        padding: 10px;
-        border-radius: 10px;
-        position: relative;
-        padding-top: 20px;
-      }
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="css/popup.css" />
+    </head>
+    <body>
+        <form id="optionsForm">
+            <div>Acum caut: <span id="searchFor">...</span></div>
 
-      .hour {
-        top: 8px;
-        position: absolute;
-        font-size: 9px;
-      }
-
-      .buttonLink {
-        background-color: #e90000;
-        border: none;
-        padding: 5px 15px;
-        border-radius: 10px;
-        font-size: 12px;
-        font-weight: bold;
-        color: white;
-      }
-    </style>
-  </head>
-  <body>
-    <form id="optionsForm">
-      <span>Acum caut: <span id="searchFor"></span></span><br />
-
-      <label for="timeLoop"
-        >Actualizare la
-        <input style="width: 30px" id="timeLoop" name="timeLoop" type="text" />
-        minute</label
-      >
-      | <input id="saveData" type="button" value="Salveaza Minute" /><br />
-      <br />
-
-      <label for="isActive">Pornit:</label>
-      <input id="isActive" value="true" name="isActive" type="checkbox" />
-    </form>
-    <div>
-      <h3>-- NOUTATI --</h3>
-      <div id="productNotification"></div>
-    </div>
-  </body>
-  <script defer src="js/options.js"></script>
+            <div class="timeLoopBox">
+                <label for="timeLoop"
+                    >Actualizare la
+                    <input style="width: 30px;" id="timeLoop" name="timeLoop" type="text" />
+                    min</label
+                >
+                <div id="save_minutes" class="btn btn__primary"><p>Salveaza</p></div>
+            </div>
+            <div class="power">
+                <span id="switchText"></span>
+                <div class="switch">
+                    <div class="switch__1">
+                        <input id="isActive" type="checkbox" />
+                        <label for="isActive"></label>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="monitor_notifications">
+            <div class="title">PRODUSE NOI ></div>
+            <div id="productNotification"></div>
+        </div>
+        <div class="monitor_logs">
+            <div class="title">WORKER ></div>
+            <ul id="logs"></ul>
+        </div>
+    </body>
+    <script defer src="js/options.js"></script>
 </html>

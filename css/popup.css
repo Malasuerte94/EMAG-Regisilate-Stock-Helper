@@ -1,0 +1,200 @@
+:root {
+    --primary-light: #8abdff;
+    --primary: #6d5dfc;
+    --primary-dark: #5b0eeb;
+    --white: #ffffff;
+    --greyLight-1: #e4ebf5;
+    --greyLight-2: #c8d0e7;
+    --greyLight-3: #bec8e4;
+    --greyDark: #9baacf;
+    --buttonCheck: #61af26;
+}
+
+html {
+    overflow-y: scroll;
+    background: var(--greyLight-1);
+    border: 5px solid var(--white);
+    width: 300px;
+}
+
+body {
+    margin-bottom: 18px;
+    font-family: 'Poppins', sans-serif;
+    background: var(--greyLight-1);
+}
+#optionsForm {
+    padding: 5px;
+    font-size: 14px;
+}
+#searchFor {
+    font-weight: bold;
+    color: var(--primary-dark);
+}
+
+#timeLoop {
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid var(--primary-dark);
+}
+
+.monitor_notifications {
+    border-radius: 5px;
+    margin-top: 5px;
+    background-color: var(--primary-dark);
+    padding: 5px;
+}
+#productNotification {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+.last_notify {
+    padding: 5px;
+    border-radius: 5px;
+    background: var(--greyLight-1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.last_notify .hour {
+    font-size: 10px;
+    color: var(--greyDark);
+}
+
+.last_notify .number {
+    color: var(--primary-dark);
+    font-weight: bold;
+}
+
+.last_notify .buttonLink {
+    cursor: pointer;
+    background-color: var(--buttonCheck);
+    color: var(--white);
+    border: unset;
+    border-radius: 5px;
+}
+
+.monitor_logs {
+border-radius: 5px;
+    margin-top: 5px;
+ background-color: black;
+ padding: 5px;
+}
+
+.monitor_logs .title, .monitor_notifications .title {
+    font-size: 8px;
+    margin-bottom: 2px;
+    color: var(--white);
+}
+
+#logs {
+    border-radius: 5px;
+    font-family: monospace;
+    color: var(--white);
+    background-color: var(--primary-dark);
+    padding: 5px;
+    margin: 0;
+}
+
+li.log {
+    list-style-type: none;
+    border-bottom: 1px solid #c8d0e752;
+    padding-bottom: 1px;
+    padding-top: 1px;
+}
+
+.timeLoopBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*  SWITCH  */
+.power {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 100%;
+    justify-content: space-between;
+}
+.switch {
+    margin-left: 20px;
+    justify-self: center;
+}
+.switch input {
+    display: none;
+}
+.switch__1 {
+    width: 3rem;
+}
+.switch__1 label,
+.switch__2 label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 1.5rem;
+    box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+    background: rgba(255, 255, 255, 0);
+    position: relative;
+    cursor: pointer;
+    border-radius: 1.6rem;
+}
+.switch__1 label::after,
+.switch__2 label::after {
+    content: '';
+    position: absolute;
+    left: 0.4rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    border-radius: 50%;
+    background: var(--greyDark);
+    transition: all 0.4s ease;
+}
+.switch__1 label::before,
+.switch__2 label::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(330deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+.switch input:checked ~ label::before {
+    opacity: 1;
+}
+.switch input:checked ~ label::after {
+    left: 57%;
+    background: var(--greyLight-1);
+}
+
+/*  BUTTONS  */
+.btn {
+    width: 5rem;
+    height: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+.btn__primary {
+    grid-column: 1/2;
+    grid-row: 4/5;
+    background: var(--primary);
+    box-shadow: inset 0.2rem 0.2rem 1rem var(--primary-light), inset -0.2rem -0.2rem 1rem var(--primary-dark),
+        0.3rem 0.3rem 0.6rem var(--greyLight-2), -0.2rem -0.2rem 0.5rem var(--white);
+    color: var(--greyLight-1);
+}
+.btn__primary:hover {
+    color: var(--white);
+}
+.btn__primary:active {
+    box-shadow: inset 0.2rem 0.2rem 1rem var(--primary-dark), inset -0.2rem -0.2rem 1rem var(--primary-light);
+}
