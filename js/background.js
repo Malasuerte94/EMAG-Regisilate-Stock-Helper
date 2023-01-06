@@ -64,7 +64,7 @@ function check() {
     });
 }
 
-
+//alarm listener
 chrome.alarms.onAlarm.addListener(function (alarm) {
     if (alarm.name == 'loopSearch') {
         chrome.storage.local.get(null, (dbItems) => {
@@ -131,6 +131,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
     }
 });
 
+//when click on notification
 chrome.notifications.onClicked.addListener(function (notificationId, byUser) {
     chrome.storage.local.get(null, (items) => {
         var url = buildLink(items.searchUrl + '/' + items.searchProduct + '/c');
@@ -143,6 +144,7 @@ chrome.notifications.onClicked.addListener(function (notificationId, byUser) {
     });
 });
 
+//get difference between 2 arrays
 function getDifference(array1, array2) {
     return array1.filter((object1) => {
         return !array2.some((object2) => {
@@ -151,12 +153,13 @@ function getDifference(array1, array2) {
     });
 }
 
+//cancel the alarm
 async function cancelAlarm() {
     await chrome.alarms.clear('loopSearch');
     console.log('Cancel Looper');
 }
 
-//affiliate build
+//affiliate link build
 var domains = [
     'emag.ro',
     'emag.page.link',
