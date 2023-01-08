@@ -8,7 +8,8 @@ chrome.runtime.onConnect.addListener(function (p) {
 function updateCounter(counter) {
     chrome.storage.local.get(['logs'], function (result) {
         let logs = result.logs || [];
-        logs.push(counter);
+        let whatToPush = getTimeOfTheRun() + ': ' + counter;
+        logs.push(whatToPush);
         if (logs.length > 6) {
             logs.shift();
         }
@@ -22,7 +23,7 @@ function updateCounter(counter) {
 
 //set time and search when install
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.local.set({ timeLoop: 1, searchProduct: '' });
+    chrome.storage.local.set({ timeLoop: 1, searchProduct: '', logs: [] });
 });
 
 //check if storage was changed
@@ -107,7 +108,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
                         };
                         chrome.notifications.create('', newProduct);
                         console.log('- found items: ' + countItems);
-                        let date = new Date().toLocaleString();
+                        let date = getTimeOfTheRun();
 
                         chrome.storage.local.set({
                             items: countItems,
@@ -238,4 +239,12 @@ function buildLink(url) {
             extraParams;
     }
     return buildedUrl;
+}
+
+//get time of the execution
+function getTimeOfTheRun() {
+    return new Date().toLocaleTimeString('ro-RO', {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
 }
